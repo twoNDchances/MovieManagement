@@ -10,7 +10,7 @@ Route::middleware(['guest.custom'])->group(function () {
     Route::post('/login', [LoginController::class, 'postLogin']);
 });
 
-Route::middleware(['auth.custom'])->group(function () {
+Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'getDashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class,'getProfile'])->name('profile');
     Route::get('/logout', [LoginController::class, 'getLogout'])->name('logout');

@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Permissions;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginMiddleware
@@ -15,6 +17,15 @@ class LoginMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $permission = Permissions::find(Auth::user()->permissions_id);
+        if (!$permission || !$permission->login) {
+            if (Auth::check()) {
+                Auth::logout();
+            }
+            return redirect()->route('login')->withErrors([
+                'message' => 'Your account was disabled',
+            ]);
+        }
         return $next($request);
     }
 }
