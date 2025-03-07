@@ -11,6 +11,7 @@ use App\Models\Permissions;
 use App\Models\RegionPermissions;
 use App\Models\User;
 use App\Models\UserPermissions;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (app()->runningInConsole()) {
+        if (app()->runningInConsole() && Schema::hasTable('users')) {
             $this->createDefaultAdmin();
         }
     }

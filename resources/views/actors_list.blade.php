@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Actors</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -114,7 +114,7 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
+      <li class="nav-item collapsed">
         <a class="nav-link" href="{{ route('dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
@@ -147,7 +147,7 @@
       </li><!-- End Regions Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('actors.list') }}">
+        <a class="nav-link" href="{{ route('actors.list') }}">
           <i class="bi bi-person-lines-fill"></i>
           <span>Actors</span>
         </a>
@@ -169,11 +169,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Actors</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('actors.list') }}">Actors</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

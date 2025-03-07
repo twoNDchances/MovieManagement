@@ -115,7 +115,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link collapsed" href="{{ route('dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -140,7 +140,7 @@
       </li><!-- End Genres Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('regions.list') }}">
+        <a class="nav-link" href="{{ route('regions.list') }}">
           <i class="bi bi-globe"></i>
           <span>Regions</span>
         </a>
@@ -169,11 +169,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Regions</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('regions.list') }}">Regions</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

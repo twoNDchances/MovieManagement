@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Movies</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -115,7 +115,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link collapsed" href="{{ route('dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -124,7 +124,7 @@
       <li class="nav-heading">Managements</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('movies.list') }}">
+        <a class="nav-link" href="{{ route('movies.list') }}">
           <i class="bi bi-tv"></i>
           <span>Movies</span>
         </a>
@@ -169,34 +169,50 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Movies</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('movies.list') }}">Movies</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Example Card</h5>
-              <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
-            </div>
-          </div>
+            <a type="button" class="btn btn-primary mt-4 mb-4" href="{{ route('movies.add') }}">
+            <i class="bi bi-plus-circle"></i>
+            <span>Add Movie</span>
+            </a>
+              <!-- Table with stripped rows -->
+               @if ($movies->isEmpty())
+               <h1 class="text-center">Empty</h1>
+               @else
+               <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Informations</th>
+                    <th>Release Year</th>
+                    <th>Poster</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($movies as $movie)
+                  <tr>
+                    <td>Unity Pugh</td>
+                    <td>9958</td>
+                    <td>Curicó</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+               @endif
+              <!-- End Table with stripped rows -->
 
-        </div>
-
-        <div class="col-lg-6">
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Example Card</h5>
-              <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
             </div>
           </div>
 

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard</title>
+  <title>Movies</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -115,7 +115,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link collapsed" href="{{ route('dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -124,7 +124,7 @@
       <li class="nav-heading">Managements</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('movies.list') }}">
+        <a class="nav-link" href="{{ route('movies.list') }}">
           <i class="bi bi-tv"></i>
           <span>Movies</span>
         </a>
@@ -169,39 +169,45 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Movies</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('movies.list') }}">Movies</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('movies.add') }}">Add</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
-      <div class="row">
-        <div class="col-lg-6">
-
-          <div class="card">
+        <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100 active" id="informations-tab" data-bs-toggle="tab" data-bs-target="#movie-informations" type="button" role="tab" aria-controls="informations" aria-selected="true">Movie Informations</button>
+            </li>
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100" id="categories-tab" data-bs-toggle="tab" data-bs-target="#movie-categories" type="button" role="tab" aria-controls="categories" aria-selected="false">Categories</button>
+            </li>
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#movie-episodes" type="button" role="tab" aria-controls="episodes" aria-selected="false">Episodes</button>
+            </li>
+        </ul>
+        <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Example Card</h5>
-              <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
+              <!-- Default Tabs -->
+              <div class="tab-content pt-2" id="myTabjustifiedContent">
+                <div class="tab-pane fade show active" id="movie-informations" role="tabpanel" aria-labelledby="informations-tab">
+                  Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.
+                </div>
+                <div class="tab-pane fade" id="movie-categories" role="tabpanel" aria-labelledby="categories-tab">
+                  Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+                </div>
+                <div class="tab-pane fade" id="movie-episodes" role="tabpanel" aria-labelledby="episodes-tab">
+                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                </div>
+              </div><!-- End Default Tabs -->
+
             </div>
-          </div>
-
         </div>
-
-        <div class="col-lg-6">
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Example Card</h5>
-              <p>This is an examle page with no contrnt. You can use it as a starter for your custom pages.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </section>
 
   </main><!-- End #main -->
