@@ -19,11 +19,8 @@ class LoginMiddleware
     {
         $permission = Permissions::find(Auth::user()->permissions_id);
         if (!$permission || !$permission->login) {
-            if (Auth::check()) {
-                Auth::logout();
-            }
-            return redirect()->route('login')->withErrors([
-                'message' => 'Your account was disabled',
+            return response(null, 403)->view('forbidden', [
+                'message' => 'Your account was disabled.',
             ]);
         }
         return $next($request);

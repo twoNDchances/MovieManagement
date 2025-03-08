@@ -124,7 +124,7 @@
       <li class="nav-heading">Managements</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('movies.list') }}">
+        <a class="nav-link collapsed" href="{{ route('movies.page') }}">
           <i class="bi bi-tv"></i>
           <span>Movies</span>
         </a>
@@ -133,21 +133,21 @@
       <li class="nav-heading">Categories</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('genres.list') }}">
+        <a class="nav-link collapsed" href="{{ route('genres.page') }}">
           <i class="bi bi-tags"></i>
           <span>Genres</span>
         </a>
       </li><!-- End Genres Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('regions.list') }}">
+        <a class="nav-link" href="{{ route('regions.page') }}">
           <i class="bi bi-globe"></i>
           <span>Regions</span>
         </a>
       </li><!-- End Regions Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('actors.list') }}">
+        <a class="nav-link collapsed" href="{{ route('actors.page') }}">
           <i class="bi bi-person-lines-fill"></i>
           <span>Actors</span>
         </a>
@@ -156,7 +156,7 @@
       <li class="nav-heading">Permissions</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('users.list') }}">
+        <a class="nav-link collapsed" href="{{ route('users.page') }}">
           <i class="bi bi-people"></i>
           <span>Users</span>
         </a>
@@ -173,7 +173,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item"><a href="{{ route('regions.list') }}">Regions</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('regions.page') }}">Regions</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

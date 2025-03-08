@@ -29,6 +29,8 @@
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
 
+  <!-- Template jQuery File -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -124,7 +126,7 @@
       <li class="nav-heading">Managements</li>
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('movies.list') }}">
+        <a class="nav-link" href="{{ route('movies.page') }}">
           <i class="bi bi-tv"></i>
           <span>Movies</span>
         </a>
@@ -133,21 +135,21 @@
       <li class="nav-heading">Categories</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('genres.list') }}">
+        <a class="nav-link collapsed" href="{{ route('genres.page') }}">
           <i class="bi bi-tags"></i>
           <span>Genres</span>
         </a>
       </li><!-- End Genres Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('regions.list') }}">
+        <a class="nav-link collapsed" href="{{ route('regions.page') }}">
           <i class="bi bi-globe"></i>
           <span>Regions</span>
         </a>
       </li><!-- End Regions Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('actors.list') }}">
+        <a class="nav-link collapsed" href="{{ route('actors.page') }}">
           <i class="bi bi-person-lines-fill"></i>
           <span>Actors</span>
         </a>
@@ -156,7 +158,7 @@
       <li class="nav-heading">Permissions</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('users.list') }}">
+        <a class="nav-link collapsed" href="{{ route('users.page') }}">
           <i class="bi bi-people"></i>
           <span>Users</span>
         </a>
@@ -173,7 +175,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">Home</li>
-          <li class="breadcrumb-item"><a href="{{ route('movies.list') }}">Movies</a></li>
+          <li class="breadcrumb-item"><a href="{{ route('movies.page') }}">Movies</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -189,28 +191,7 @@
             <span>Add Movie</span>
             </a>
               <!-- Table with stripped rows -->
-               @if ($movies->isEmpty())
-               <h1 class="text-center">Empty</h1>
-               @else
-               <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th>Informations</th>
-                    <th>Release Year</th>
-                    <th>Poster</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($movies as $movie)
-                  <tr>
-                    <td>Unity Pugh</td>
-                    <td>9958</td>
-                    <td>Curicó</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-               @endif
+               <div id="moviesListHolder"></div>
               <!-- End Table with stripped rows -->
 
             </div>
@@ -236,6 +217,89 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+
+  <!-- Template Custom JS File -->
+
+  <script>
+    $(document).ready(function () {
+      callAPI(
+        'get',
+        '{{ route("movies.list") }}',
+        function () {
+          $('#moviesListHolder').append(`
+            <div class="d-flex justify-content-center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          `)
+        },
+        function (data) {
+          let responseData = JSON.parse(data.responseText)
+          if (responseData.movies.length == 0) {
+            $('#moviesListHolder').empty().append(`
+              <h1 class="text-center">Empty</h1>
+            `)
+          } else {
+            $('#moviesListHolder').empty().append(`
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Informations</th>
+                    <th>Release Year</th>
+                    <th>Poster</th>
+                  </tr>
+                </thead>
+                <tbody id="moviesList">
+                </tbody>
+              </table>
+            `)
+            for (let index = 0; index < responseData.movies.length; index++) {
+              const element = responseData.movies[index];
+              $('#moviesList').append(`
+                <tr>
+                  <td>Unity Pugh</td>
+                  <td>9958</td>
+                  <td>Curicó</td>
+                </tr>
+              `)
+            }
+          }
+        },
+        function (error) {
+          if (error.status == 403) {
+            $('#moviesListHolder').empty().append(`
+              <h1 class="text-center">Permission denied</h1>
+            `)
+            return
+          }
+        }
+      )
+    })
+    function callAPI(method, endpoint, onLoading, onSuccess, onError, body = null) {
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 0 || this.readyState == 1 || this.readyState == 2 || this.readyState == 3) {
+                onLoading()
+            }
+            else if (this.readyState == 4 && this.status == 200) {
+                onSuccess(this)
+            }
+            else if (this.status != 200) {
+                onError(this)
+            }
+        }
+        xhr.open(String(method).toUpperCase(), endpoint);
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.timeout = 5000
+        if (body == null) {
+            xhr.send();
+        }
+        else {
+            xhr.send(body);
+        }
+    }
+  </script>
 
 </body>
 

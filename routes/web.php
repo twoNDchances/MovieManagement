@@ -15,7 +15,9 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'getDashboard'])->name('dashboard');
 
     Route::prefix('movies')->name('movies.')->group(function () {
-        Route::middleware([])->prefix('add')->name('add')->group(function () {
+        Route::get('', [MoviesController::class, 'getMovies'])->name('page');
+
+        Route::middleware(['movies.add.permission'])->prefix('add')->name('add')->group(function () {
             Route::get('', [MoviesController::class, 'getMoviesAdd']);
             Route::post('', [MoviesController::class, 'postMoviesAdd']);
         });
@@ -33,6 +35,8 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('genres')->name('genres.')->group(function () {
+        Route::get('', [])->name('page');
+
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
         Route::middleware([])->get('/view/{staticURL}', [])->name('view');
@@ -41,6 +45,8 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('regions')->name('regions.')->group(function () {
+        Route::get('', [])->name('page');
+
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
         Route::middleware([])->get('/view/{staticURL}', [])->name('view');
@@ -49,6 +55,8 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('actors')->name('actors.')->group(function () {
+        Route::get('', [])->name('page');
+
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
         Route::middleware([])->get('/view/{staticURL}', [])->name('view');
@@ -57,6 +65,8 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('users')->name('users.')->group(function () {
+        Route::get('', [])->name('page');
+
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
         Route::middleware([])->get('/view/{staticURL}', [])->name('view');
@@ -65,6 +75,6 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
-
-    Route::get('/logout', [LoginController::class, 'getLogout'])->name('logout');
 });
+
+Route::middleware(['auth.custom'])->get('/logout', [LoginController::class, 'getLogout'])->name('logout');

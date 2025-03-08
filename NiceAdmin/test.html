@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Thuyết Minh</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="p-4">
+    <div class="container">
+        <div class="mb-3">
+            <input type="text" id="server-name" class="form-control d-inline-block w-auto" placeholder="Tên Server">
+            <button id="add-section" class="btn btn-success">Thêm +</button>
+        </div>
+
+        <form id="server-form" method="get">
+            <div id="sections-container"></div>
+            <button type="submit" class="btn btn-primary mt-3">Gửi dữ liệu</button>
+        </form>
+    </div>
+    
+    <script>
+        $(document).ready(function () {
+            let sectionIndex = 0;
+
+            // Thêm một section mới dựa vào input tên server
+            $("#add-section").click(function () {
+                let serverName = $("#server-name").val().trim();
+                if (serverName === "") {
+                    alert("Vui lòng nhập tên server!");
+                    return;
+                }
+                
+                let sectionId = "server_" + sectionIndex;
+                let newSection = `
+                    <div class="mt-4 section border p-3 rounded shadow-sm" data-section="${sectionId}">
+                        <h4>${serverName}</h4>
+                        <input type="hidden" name="servers[${sectionIndex}][name]" value="${serverName}">
+                        <table class="table table-bordered mt-2">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Slug</th>
+                                    <th>Type</th>
+                                    <th>Link</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                <tr>
+                                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][0][name]" value="1"></td>
+                                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][0][slug]" value="tap-1"></td>
+                                    <td>
+                                        <select class="form-select" name="servers[${sectionIndex}][episodes][0][type]">
+                                            <option>Nhú</option>
+                                            <option>Hoạt động</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][0][link]"></td>
+                                    <td><button class="btn btn-danger delete-row">Xóa</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-warning add-row">+ Thêm tập mới</button>
+                        <button class="btn btn-danger delete-section">Xóa server</button>
+                    </div>
+                `;
+                $("#sections-container").append(newSection);
+                $("#server-name").val(""); // Reset input sau khi thêm
+                sectionIndex++;
+            });
+
+            // Thêm tập phim mới vào bảng tương ứng
+            $(document).on("click", ".add-row", function () {
+                let section = $(this).closest(".section");
+                let sectionIndex = section.attr("data-section").split("_")[1];
+                let episodeIndex = section.find(".table-body tr").length;
+
+                let newRow = `<tr>
+                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][name]"></td>
+                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][slug]"></td>
+                    <td>
+                        <select class="form-select" name="servers[${sectionIndex}][episodes][${episodeIndex}][type]">
+                            <option>Nhú</option>
+                            <option>Hoạt động</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][link]"></td>
+                    <td><button class="btn btn-danger delete-row">Xóa</button></td>
+                </tr>`;
+                section.find(".table-body").append(newRow);
+            });
+
+            // Xóa một tập phim cụ thể
+            $(document).on("click", ".delete-row", function () {
+                $(this).closest("tr").remove();
+            });
+
+            // Xóa từng khu vực server riêng lẻ
+            $(document).on("click", ".delete-section", function () {
+                $(this).closest(".section").remove();
+            });
+        });
+    </script>
+</body>
+</html>

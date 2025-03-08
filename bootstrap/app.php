@@ -3,6 +3,7 @@
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\GuestMiddleware;
 use App\Http\Middleware\LoginMiddleware;
+use App\Http\Middleware\MoviesAddPermissionMiddleware;
 use App\Http\Middleware\MoviesListPermissionMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest.custom' => GuestMiddleware::class,
             'login.permission' => LoginMiddleware::class,
             'movies.list.permission' => MoviesListPermissionMiddleware::class,
+            'movies.add.permission' => MoviesAddPermissionMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
