@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('movieName');
-            $table->string('movieOriginName');
-            $table->string('staticURL');
+            $table->string('movieName')->unique();
+            $table->string('movieOriginName')->unique();
+            $table->string('staticURL')->unique();
             $table->string('poster');
-            $table->string('description');
-            $table->string('annotation');
-            $table->string('showtimes');
-            $table->string('trailerURL');
-            $table->string('duration');
-            $table->integer('currentOfEpisodes');
-            $table->integer('totalOfEpisodes');
-            $table->integer('releaseYear');
+            $table->string('description')->nullable();
+            $table->string('annotation')->nullable();
+            $table->string('showtimes')->nullable();
+            $table->string('trailerURL')->nullable();
+            $table->string('duration')->nullable();
+            $table->integer('currentOfEpisodes')->nullable();
+            $table->integer('totalOfEpisodes')->nullable();
+            $table->integer('releaseYear')->nullable();
             $table->timestamps();
         });
     }

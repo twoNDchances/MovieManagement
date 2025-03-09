@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class MoviesController extends Controller
 {
@@ -35,9 +36,9 @@ class MoviesController extends Controller
     public function postMoviesAdd(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'movieName' => 'required',
-            'movieOriginName' => 'required',
-            'staticURL' => 'required',
+            'movieName' => 'required|unique:movies,movieName',
+            'movieOriginName' => 'required|unique:movies,movieOriginName',
+            'staticURL' => 'required|unique:movies,staticURL',
             'poster' => 'required|image',
             'trailer' => 'nullable|url',
             'currentOfEpisodes' => 'nullable|integer',
@@ -46,11 +47,11 @@ class MoviesController extends Controller
         ]);
         if ($validator->fails())
         {
-            return response($validator->errors());
+            return back()->withErrors($validator)->withInput();
         }
         $path = null;
         if ($request->hasFile('poster')) {
-            $filename = time() . '.' . $request->file('poster')->extension();
+            $filename = time() . '_' . Str::uuid() . '.' . $request->file('poster')->extension();
             $path = 'uploads/' . $filename;
             $request->file('poster')->move(public_path('uploads'), $filename);
         }

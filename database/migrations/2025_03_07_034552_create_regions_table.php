@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('regions', function (Blueprint $table) {
             $table->id();
-            $table->string('regionName');
-            $table->string('staticURL');
+            $table->string('regionName')->unique();
+            $table->string('staticURL')->unique();
             $table->timestamps();
         });
     }

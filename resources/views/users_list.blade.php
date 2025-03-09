@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('title', 'Actors')
+@section('title', 'Users')
 
 @section('sidebar')
 <li class="nav-item">
@@ -36,7 +36,7 @@
 </li><!-- End Regions Nav -->
 
 <li class="nav-item">
-  <a class="nav-link" href="{{ route('actors.page') }}">
+  <a class="nav-link collapsed" href="{{ route('actors.page') }}">
     <i class="bi bi-person-lines-fill"></i>
     <span>Actors</span>
   </a>
@@ -45,7 +45,7 @@
 <li class="nav-heading">Permissions</li>
 
 <li class="nav-item">
-  <a class="nav-link collapsed" href="{{ route('users.page') }}">
+  <a class="nav-link" href="{{ route('users.page') }}">
     <i class="bi bi-people"></i>
     <span>Users</span>
   </a>
@@ -53,11 +53,11 @@
 @endsection
 
 @section('pagetitle')
-<h1>Actors</h1>
+<h1>Users</h1>
 <nav>
   <ol class="breadcrumb">
     <li class="breadcrumb-item">Home</li>
-    <li class="breadcrumb-item"><a href="{{ route('actors.page') }}">Actors</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('users.page') }}">Users</a></li>
   </ol>
 </nav>
 @endsection

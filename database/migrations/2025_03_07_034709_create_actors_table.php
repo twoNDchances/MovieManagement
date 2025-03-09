@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('actors', function (Blueprint $table) {
             $table->id();
-            $table->string('actorName');
-            $table->string('staticURL');
+            $table->string('actorName')->unique();
+            $table->string('staticURL')->unique();
             $table->timestamps();
         });
     }

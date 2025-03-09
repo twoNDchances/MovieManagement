@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\ActorsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GenresController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegionsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest.custom'])->group(function () {
@@ -35,17 +39,22 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('genres')->name('genres.')->group(function () {
-        Route::get('', [])->name('page');
+        Route::get('', [GenresController::class, 'getGenres'])->name('page');
 
-        Route::middleware([])->get('/add', [])->name('add');
-        Route::middleware([])->get('/list', [])->name('list');
-        Route::middleware([])->get('/view/{staticURL}', [])->name('view');
-        Route::middleware([])->get('/update/{staticURL}', [])->name('update');
-        Route::middleware([])->get('/delete/{staticURL}', [])->name('delete');
+        Route::middleware([])->prefix('add')->name('add')->group(function () {
+            Route::get('', [GenresController::class, 'getGenresAdd']);
+            Route::post('', [GenresController::class, 'postGenresAdd']);
+        });
+
+        Route::middleware([])->get('/list', [GenresController::class, 'getGenresList'])->name('list');
+        
+        Route::middleware([])->get('/view/{staticURL}', [GenresController::class, 'getGenresView'])->name('view');
+        Route::middleware([])->patch('/update/{staticURL}', [GenresController::class, 'patchGenresUpdate'])->name('update');
+        Route::middleware([])->delete('/delete/{staticURL}', [GenresController::class, 'deleteGenresDelete'])->name('delete');
     });
 
     Route::prefix('regions')->name('regions.')->group(function () {
-        Route::get('', [])->name('page');
+        Route::get('', [RegionsController::class, 'getRegions'])->name('page');
 
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
@@ -55,7 +64,7 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('actors')->name('actors.')->group(function () {
-        Route::get('', [])->name('page');
+        Route::get('', [ActorsController::class, 'getActors'])->name('page');
 
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
@@ -65,7 +74,7 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     });
 
     Route::prefix('users')->name('users.')->group(function () {
-        Route::get('', [])->name('page');
+        Route::get('', [UsersController::class, 'getUsers'])->name('page');
 
         Route::middleware([])->get('/add', [])->name('add');
         Route::middleware([])->get('/list', [])->name('list');
