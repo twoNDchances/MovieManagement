@@ -169,7 +169,7 @@
       'delete',
       endpoint,
       function() {
-        $(`#${staticURL}DeleteButton`).empty().append(`
+        $(`#${staticURL}DeleteButton`).empty().attr('disabled', true).append(`
           <div class="spinner-border text-light" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -187,7 +187,7 @@
         `)
       },
       function(error) {
-        $(`#${staticURL}DeleteButton`).empty().text('Delete')
+        $(`#${staticURL}DeleteButton`).empty().removeAttr('disabled').text('Delete')
         let responseError = JSON.parse(error.responseText)
         $('#alert').append(`
           <div class="alert alert-danger alert-dismissible fade show" role="alert">

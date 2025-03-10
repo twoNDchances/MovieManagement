@@ -65,6 +65,19 @@
 
 @section('content')
 @if ($permission)
+@if ($errors)
+  @php
+  $serverErrors = collect($errors->keys())->filter(fn($key) => str_starts_with($key, 'servers'))->toArray();
+  @endphp
+  @if (!empty($serverErrors))
+    @foreach ($serverErrors as $errorKey)
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ $errors->first($errorKey) }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endforeach
+  @endif
+@endif
 <form class="row g-3 needs-validation" novalidate method="post" action="{{ route('movies.add') }}" enctype="multipart/form-data">
   @csrf
   <div class="card">
@@ -179,9 +192,79 @@
           </div>
         </div>
         <div class="tab-pane fade" id="movie-categories" role="tabpanel" aria-labelledby="categories-tab">
-          Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+          <div class="row mt-2">
+            <div class="col-md-12">Genres</div>
+            <div class="col-md-12 mt-2">
+              <div class="row">
+                @foreach ($genres as $genre)
+                <div class="col-md-3">
+                  <input class="form-check-input" type="checkbox" name="genres[]" id="{{ $genre->staticURL }}" value="{{ $genre->id }}">
+                  <label class="form-check-label" for="{{ $genre->staticURL }}">
+                    {{ $genre->genreName }}
+                  </label>
+                </div>
+                @endforeach
+                @if ($errors->has('genres'))
+                <div class="col-md-12">
+                  <p class="text-danger">{{ $errors->first('genres') }}</p>
+                </div>
+                @endif
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row mt-4">
+            <div class="col-md-12">Regions</div>
+            <div class="col-md-12 mt-2">
+              <div class="row">
+                @foreach ($regions as $region)
+                <div class="col-md-3">
+                  <input class="form-check-input" type="checkbox" name="regions[]" id="{{ $region->staticURL }}" value="{{ $region->id }}">
+                  <label class="form-check-label" for="{{ $region->staticURL }}">
+                    {{ $region->regionName }}
+                  </label>
+                </div>
+                @endforeach
+                @if ($errors->has('regions'))
+                <div class="col-md-12">
+                  <p class="text-danger">{{ $errors->first('regions') }}</p>
+                </div>
+                @endif
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row mt-4">
+            <div class="col-md-12">Actors</div>
+            <div class="col-md-12 mt-2">
+              <div class="row">
+                @foreach ($actors as $actor)
+                <div class="col-md-3">
+                  <input class="form-check-input" type="checkbox" name="actors[]" id="{{ $actor->staticURL }}" value="{{ $actor->id }}">
+                  <label class="form-check-label" for="{{ $actor->staticURL }}">
+                    {{ $actor->actorName }}
+                  </label>
+                </div>
+                @endforeach
+                @if ($errors->has('actors'))
+                <div class="col-md-12">
+                  <p class="text-danger">{{ $errors->first('actors') }}</p>
+                </div>
+                @endif
+              </div>
+            </div>
+          </div>
         </div>
         <div class="tab-pane fade" id="movie-episodes" role="tabpanel" aria-labelledby="episodes-tab">
+          @if ($errors->has('servers'))
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->get('servers') as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
           <div class="row mt-2">
             <div class="col-md-6">
               <div class="row">
@@ -239,7 +322,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Slug</th>
-                                    <th>Link</th>
+                                    <th>Video</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
@@ -247,7 +330,7 @@
                                 <tr>
                                     <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][0][name]" value="1"></td>
                                     <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][0][slug]" value="tap-1"></td>
-                                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][0][link]"></td>
+                                    <td><input type="file" class="form-control" name="servers[${sectionIndex}][episodes][0][video]"></td>
                                     <td><button class="btn btn-danger delete-row">Delete</button></td>
                                 </tr>
                             </tbody>
@@ -270,7 +353,7 @@
       let newRow = `<tr>
                     <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][name]"></td>
                     <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][slug]"></td>
-                    <td><input type="text" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][link]"></td>
+                    <td><input type="file" class="form-control" name="servers[${sectionIndex}][episodes][${episodeIndex}][video]"></td>
                     <td><button class="btn btn-danger delete-row">Delete</button></td>
                 </tr>`;
       section.find(".table-body").append(newRow);

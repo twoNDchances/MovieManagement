@@ -64,6 +64,7 @@
 
 @section('content')
 <div class="row">
+  <div class="col-lg-12" id="alert"></div>
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
@@ -119,13 +120,36 @@
       `)
           for (let index = 0; index < responseData.movies.length; index++) {
             const element = responseData.movies[index];
+            let routeView = "{{ route('movies.view', ['staticURL' => '__STATIC_URL__']) }}"
+            routeView = routeView.replace('__STATIC_URL__', element.staticURL)
+            let routeDelete = "{{ route('movies.delete', ['staticURL' => '__STATIC_URL__']) }}"
+            routeDelete = routeDelete.replace('__STATIC_URL__', element.staticURL)
             $('#moviesList').append(`
-          <tr>
+          <tr id="${element.staticURL}">
             <td>${element.movieName}</td>
             <td class="text-center">${element.releaseYear}</td>
             <td class="text-center"><img src=${element.poster} width="100" height="150"></td>
-            <td class="text-end"><a type="button" class="btn btn-link">View</a></td>
-            <td class="text-end"><a type="button" class="btn btn-link">Delete</a></td>
+            <td class="text-end"><a type="button" class="btn btn-link" href="${routeView}">View</a></td>
+            <td class="text-end">
+              <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#disabledAnimation">Delete</button>
+              <div class="modal" id="disabledAnimation" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Movie Deleting</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure to delete ${element.movieName} movie?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="${element.staticURL}CloseButton">Close</button>
+                      <button type="button" class="btn btn-danger" onclick=deleteMovie("${element.staticURL}","${routeDelete}") id="${element.staticURL}DeleteButton">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Disabled Animation Modal-->
+            </td>
           </tr>
         `)
           }
@@ -142,7 +166,44 @@
     )
   })
 
-  function callAPI(method, endpoint, onLoading, onSuccess, onError, body = null) {
+  function deleteMovie(staticURL, endpoint) {
+    callAPI(
+      'delete',
+      endpoint,
+      function () {
+        $(`#${staticURL}DeleteButton`).empty().attr('disabled', true).append(`
+          <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        `)
+      },
+      function (data) {
+        $(`#${staticURL}CloseButton`).click()
+        $(`#${staticURL}`).remove()
+        let responseData = JSON.parse(data.responseText)
+        $('#alert').append(`
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            ${responseData.message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `)
+      },
+      function (error) {
+        $(`#${staticURL}DeleteButton`).empty().removeAttr('disabled').text('Delete')
+        let responseError = JSON.parse(error.responseText)
+        $('#alert').append(`
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${responseError.message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `)
+      },
+      null,
+      true
+    )
+  }
+
+  function callAPI(method, endpoint, onLoading, onSuccess, onError, body = null, token = false) {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       if (this.readyState == 0 || this.readyState == 1 || this.readyState == 2 || this.readyState == 3) {
@@ -155,6 +216,9 @@
     }
     xhr.open(String(method).toUpperCase(), endpoint);
     xhr.setRequestHeader('Content-Type', 'application/json')
+    if (token == true) {
+      xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}')
+    }
     xhr.timeout = 5000
     if (body == null) {
       xhr.send();

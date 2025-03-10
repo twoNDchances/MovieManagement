@@ -9,7 +9,7 @@ class Episodes extends Model
     protected $fillable = [
         "episodeName",
         'staticURL',
-        'link',
+        'path',
         'servers_id'
     ];
 

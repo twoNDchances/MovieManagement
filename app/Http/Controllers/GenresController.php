@@ -19,9 +19,8 @@ class GenresController extends Controller
 
     public function getGenresList()
     {
-        $genres = Genres::all();
         return response()->json([
-            'genres' => $genres,
+            'genres' => Genres::all(),
         ]);
     }
 

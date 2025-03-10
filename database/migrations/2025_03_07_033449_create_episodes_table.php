@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('episodeName');
             $table->string('staticURL');
-            $table->string('link');
+            $table->string('path');
             $table->foreignId('servers_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
