@@ -108,8 +108,8 @@
           <thead>
             <tr>
               <th>Informations</th>
-              <th class="text-center">Release Year</th>
               <th class="text-center">Poster</th>
+              <th class="text-center">Release Year</th>
               <th class="text-end">View</th>
               <th class="text-end">Delete</th>
             </tr>
@@ -127,12 +127,12 @@
             $('#moviesList').append(`
           <tr id="${element.staticURL}">
             <td>${element.movieName}</td>
-            <td class="text-center">${element.releaseYear}</td>
             <td class="text-center"><img src=${element.poster} width="100" height="150"></td>
+            <td class="text-center">${element.releaseYear}</td>
             <td class="text-end"><a type="button" class="btn btn-link" href="${routeView}">View</a></td>
             <td class="text-end">
-              <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#disabledAnimation">Delete</button>
-              <div class="modal" id="disabledAnimation" tabindex="-1">
+              <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#${element.staticURL}Modal">Delete</button>
+              <div class="modal" id="${element.staticURL}Modal" tabindex="-1">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -189,6 +189,7 @@
         `)
       },
       function (error) {
+        $(`#${staticURL}CloseButton`).click()
         $(`#${staticURL}DeleteButton`).empty().removeAttr('disabled').text('Delete')
         let responseError = JSON.parse(error.responseText)
         $('#alert').append(`

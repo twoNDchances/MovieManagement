@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\ActorPermissions;
 use App\Models\GenrePermissions;
-use App\Models\LoginPermissions;
 use App\Models\MoviePermissions;
 use App\Models\PermissionManagements;
 use App\Models\Permissions;
@@ -49,10 +48,6 @@ class AppServiceProvider extends ServiceProvider
             $genrePermissionManagement = PermissionManagements::create($generalPermission);
             $regionPermissionManagement = PermissionManagements::create($generalPermission);
             $actorPermissionManagement = PermissionManagements::create($generalPermission);
-            $loginPermission = LoginPermissions::create([
-                'disable' => true,
-                'enable' => true,
-            ]);
     
             $moviePermission = MoviePermissions::create([
                 'permission_managements_id' => $moviePermissionManagement->id,
@@ -72,12 +67,12 @@ class AppServiceProvider extends ServiceProvider
             
             $permission = Permissions::create([
                 'login' => true,
+                'editLogin' => true,
                 'movie_permissions_id' => $moviePermission->id,
                 'user_permissions_id' => $userPermission->id,
                 'genre_permissions_id' => $genrePermission->id,
                 'region_permissions_id' => $regionPermission->id,
                 'actor_permissions_id' => $actorPermission->id,
-                'login_permissions_id' => $loginPermission->id,
             ]);
             User::create([
                 'name' => 'DefaultAdmin',

@@ -19,12 +19,8 @@ class Movies extends Model
         'currentOfEpisodes',
         'totalOfEpisodes',
         'releaseYear',
+        'path',
     ];
-
-    public function servers()
-    {
-        return $this->hasMany(Servers::class);
-    }
 
     public function genres()
     {

@@ -65,19 +65,6 @@
 
 @section('content')
 @if ($permission)
-@if ($errors)
-  @php
-  $serverErrors = collect($errors->keys())->filter(fn($key) => str_starts_with($key, 'servers'))->toArray();
-  @endphp
-  @if (!empty($serverErrors))
-    @foreach ($serverErrors as $errorKey)
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ $errors->first($errorKey) }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endforeach
-  @endif
-@endif
 <form class="row g-3 needs-validation" novalidate method="post" action="{{ route('movies.add') }}" enctype="multipart/form-data">
   @csrf
   <div class="card">
@@ -88,9 +75,6 @@
         </li>
         <li class="nav-item flex-fill" role="presentation">
           <button class="nav-link w-100" id="categories-tab" data-bs-toggle="tab" data-bs-target="#movie-categories" type="button" role="tab" aria-controls="categories" aria-selected="false">Categories</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="episodes-tab" data-bs-toggle="tab" data-bs-target="#movie-episodes" type="button" role="tab" aria-controls="episodes" aria-selected="false">Episodes</button>
         </li>
       </ul>
       <!-- Default Tabs -->
@@ -190,6 +174,16 @@
               @endif
             </div>
           </div>
+          <div class="col-md-12 mt-2">
+            <label for="video" class="form-label">Video</label>
+            <input type="file" class="form-control" id="video" name="video" required>
+            <div class="invalid-feedback">
+              Required
+            </div>
+            @if ($errors->has('video'))
+            <p class="text-danger">{{ $errors->first('video') }}</p>
+            @endif
+          </div>
         </div>
         <div class="tab-pane fade" id="movie-categories" role="tabpanel" aria-labelledby="categories-tab">
           <div class="row mt-2">
@@ -254,30 +248,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="tab-pane fade" id="movie-episodes" role="tabpanel" aria-labelledby="episodes-tab">
-          @if ($errors->has('servers'))
-          <div class="alert alert-danger">
-            <ul>
-              @foreach ($errors->get('servers') as $error)
-              <li>{{ $error }}</li>
-              @endforeach
-            </ul>
-          </div>
-          @endif
-          <div class="row mt-2">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-8">
-                  <input type="text" id="server-name" class="form-control" placeholder="Server name">
-                </div>
-                <div class="col-md-4">
-                  <button id="add-section" class="btn btn-success">Add server +</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="sections-container"></div>
         </div>
       </div><!-- End Default Tabs -->
       <div class="col-12 mt-4">

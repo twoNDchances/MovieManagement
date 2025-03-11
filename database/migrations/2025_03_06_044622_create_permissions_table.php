@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->boolean('login')->default(false);
+            $table->boolean('editLogin')->default(false);
             $table->foreignId('movie_permissions_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_permissions_id')->constrained()->cascadeOnDelete();
             $table->foreignId('genre_permissions_id')->constrained()->cascadeOnDelete();
             $table->foreignId('region_permissions_id')->constrained()->cascadeOnDelete();
             $table->foreignId('actor_permissions_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('login_permissions_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

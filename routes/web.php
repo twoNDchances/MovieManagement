@@ -29,12 +29,7 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
         Route::middleware(['movies.list.permission'])->get('/list', [MoviesController::class, 'getMoviesList'])->name('list');
         
         Route::middleware([])->get('/view/{staticURL}', [MoviesController::class, 'getMoviesView'])->name('view');
-        
-        Route::middleware([])->prefix('update')->name('update')->group(function () {
-            Route::get('/{staticURL}', [MoviesController::class, '']);
-            Route::patch('', [MoviesController::class, '']);
-        });
-
+        Route::middleware([])->patch('/update/{staticURL}', [MoviesController::class, 'patchMoviesUpdate'])->name('update');
         Route::middleware([])->delete('/delete/{staticURL}', [MoviesController::class, 'deleteMoviesDelete'])->name('delete');
     });
 
@@ -77,6 +72,7 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
         });
 
         Route::middleware([])->get('/list', [ActorsController::class, 'getActorsList'])->name('list');
+        
         Route::middleware([])->get('/view/{staticURL}', [ActorsController::class, 'getActorsView'])->name('view');
         Route::middleware([])->patch('/update/{staticURL}', [ActorsController::class, 'patchActorsUpdate'])->name('update');
         Route::middleware([])->delete('/delete/{staticURL}', [ActorsController::class, 'deleteActorsDelete'])->name('delete');
@@ -85,11 +81,16 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('', [UsersController::class, 'getUsers'])->name('page');
 
-        Route::middleware([])->get('/add', [])->name('add');
-        Route::middleware([])->get('/list', [])->name('list');
-        Route::middleware([])->get('/view/{staticURL}', [])->name('view');
-        Route::middleware([])->get('/update/{staticURL}', [])->name('update');
-        Route::middleware([])->get('/delete/{staticURL}', [])->name('delete');
+        Route::middleware([])->prefix('add')->name('add')->group(function () {
+            Route::get('', [UsersController::class, 'getUsersAdd']);
+            Route::post('', [UsersController::class, 'postUsersAdd']);
+        });
+
+        Route::middleware([])->get('/list', [UsersController::class, 'getUsersList'])->name('list');
+        
+        Route::middleware([])->get('/view/{email}', [UsersController::class, 'getUsersView'])->name('view');
+        Route::middleware([])->patch('/update/{email}', [UsersController::class, 'patchUsersUpdate'])->name('update');
+        Route::middleware([])->delete('/delete/{email}', [UsersController::class, 'deleteUsersDelete'])->name('delete');
     });
 
     Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');

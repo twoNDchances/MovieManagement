@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('currentOfEpisodes')->nullable();
             $table->integer('totalOfEpisodes')->nullable();
             $table->integer('releaseYear')->nullable();
+            $table->string('path');
             $table->timestamps();
         });
     }

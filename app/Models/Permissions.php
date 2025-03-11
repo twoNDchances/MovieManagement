@@ -8,12 +8,12 @@ class Permissions extends Model
 {
     protected $fillable = [
         "login",
+        "editLogin",
         "movie_permissions_id",
         "user_permissions_id",
         "genre_permissions_id",
         "region_permissions_id",
         "actor_permissions_id",
-        "login_permissions_id",
     ];
 
     public function moviePermissions()
@@ -39,10 +39,5 @@ class Permissions extends Model
     public function actorPermissions()
     {
         return $this->belongsTo(ActorPermissions::class);
-    }
-
-    public function loginPermissions()
-    {
-        return $this->belongsTo(LoginPermissions::class);
     }
 }
