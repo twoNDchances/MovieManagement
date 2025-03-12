@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\GenrePermissions;
+use App\Models\MoviePermissions;
 use App\Models\PermissionManagements;
 use App\Models\Permissions;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GenresListPermissionMiddleware
+class MoviesUpdatePermissionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,16 +19,16 @@ class GenresListPermissionMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $permissionManagement = PermissionManagements::find(
-            GenrePermissions::find(
+            MoviePermissions::find(
                 Permissions::find(
                     $request->user()->permissions_id
-                )->genre_permissions_id
+                )->movie_permissions_id
             )->permission_managements_id
         );
-        if (!$permissionManagement->list) {
-            return response()->json([
-                'message' => 'Your account don\'t have permission to perform this action.',
-            ], 403);
+        if (!$permissionManagement->list || !$permissionManagement->view || !$permissionManagement->update) {
+            return back()->withErrors([
+                'alert' => 'Your account don\'t have permission to perform this action.',
+            ])->withInput();
         }
         return $next($request);
     }

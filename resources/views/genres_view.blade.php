@@ -64,6 +64,12 @@
 @endsection
 
 @section('content')
+@if ($errors->has('alert'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ $errors->first('alert') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 <div class="card">
     <div class="card-body">
         <!-- Custom Styled Validation -->

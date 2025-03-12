@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\GenrePermissions;
 use App\Models\PermissionManagements;
 use App\Models\Permissions;
+use App\Models\UserPermissions;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GenresListPermissionMiddleware
+class UsersListPermissionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,10 +19,10 @@ class GenresListPermissionMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $permissionManagement = PermissionManagements::find(
-            GenrePermissions::find(
+            UserPermissions::find(
                 Permissions::find(
                     $request->user()->permissions_id
-                )->genre_permissions_id
+                )->user_permissions_id
             )->permission_managements_id
         );
         if (!$permissionManagement->list) {

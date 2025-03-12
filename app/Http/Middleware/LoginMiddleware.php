@@ -19,9 +19,9 @@ class LoginMiddleware
     {
         $permission = Permissions::find(Auth::user()->permissions_id);
         if (!$permission || !$permission->login) {
-            return response(null, 403)->view('forbidden', [
+            return response()->view('forbidden', [
                 'message' => 'Your account was disabled.',
-            ]);
+            ], 403);
         }
         return $next($request);
     }

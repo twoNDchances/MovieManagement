@@ -2,14 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\GenrePermissions;
 use App\Models\PermissionManagements;
 use App\Models\Permissions;
+use App\Models\RegionPermissions;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GenresAddPermissionMiddleware
+class RegionsAddPermissionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,17 +19,17 @@ class GenresAddPermissionMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $permissionManagement = PermissionManagements::find(
-            GenrePermissions::find(
+            RegionPermissions::find(
                 Permissions::find(
                     $request->user()->permissions_id
-                )->genre_permissions_id
+                )->region_permissions_id
             )->permission_managements_id
         );
         if (!$permissionManagement->add)
         {
             if ($request->isMethod('get'))
             {
-                return response()->view('genres_add', [
+                return response()->view('regions_add', [
                     'email' => $request->user()->email,
                     'name' => $request->user()->name,
                     'permission' => $permissionManagement->add,

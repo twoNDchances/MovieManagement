@@ -64,8 +64,14 @@
 @endsection
 
 @section('content')
+@if ($errors->has('alert'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ $errors->first('alert') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 @if ($permission)
-<form class="row g-3 needs-validation" novalidate method="post" action="{{ route('users.update', ['email' => $email]) }}" enctype="multipart/form-data">
+<form class="row g-3 needs-validation" novalidate method="post" action="{{ route('users.update', ['email' => $user->email]) }}" enctype="multipart/form-data">
     @csrf
     @method('patch')
     <div class="card">
@@ -100,7 +106,7 @@
                     <label for="password" class="form-label">Password</label>
                     <div class="row">
                         <div class="col-md-8">
-                            <input type="password" class="form-control" id="password" name="password" value="{{ old('password', null) }}">
+                            <input type="password" class="form-control" id="password" name="password" value="{{ old('password', '') }}">
                             @if ($errors->has('password'))
                             <p class="text-danger">{{ $errors->first('password') }}</p>
                             @endif

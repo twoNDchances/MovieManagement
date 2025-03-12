@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserPermissions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -163,11 +164,18 @@ class UsersController extends Controller
         $actorPermission = PermissionManagements::find(ActorPermissions::find(Permissions::find($user->permissions_id)->actor_permissions_id)->permission_managements_id);
         $userPermission = PermissionManagements::find(UserPermissions::find(Permissions::find($user->permissions_id)->user_permissions_id)->permission_managements_id);
         $otherPermission = Permissions::find($user->permissions_id);
-        $user->update(array_filter([
+        $payload = [
             'email' => $request->email,
             'name' => $request->name,
-            'password' => bcrypt($request->password),
-        ]));
+        ];
+        if ($request->has('password'))
+        {
+            if (!is_null($request->password) || Str::length($request->password) !== 0)
+            {
+                $payload['password'] = bcrypt($request->password);
+            }
+        }
+        $user->update(array_filter($payload));
         $moviePermission->update($this->convert($request->movies));
         $genrePermission->update($this->convert($request->genres));
         $regionPermission->update($this->convert($request->regions));
