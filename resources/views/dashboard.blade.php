@@ -63,6 +63,79 @@
 @endsection
 
 @section('content')
+<section class="dashboard">
+  <div class="row">
+    <!-- Left side columns -->
+    <div class="col-lg-3">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">Movies</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <a href="{{ route('movies.page') }}">
+                <i class="bi bi-tv"></i>
+              </a>
+            </div>
+            <div class="ps-3">
+              <h6 class="text-primary">{{ $movieLength }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card info-card revenue-card">
+        <div class="card-body">
+          <h5 class="card-title">Genres</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <a href="{{ route('genres.page') }}">
+                <i class="bi bi-tags"></i>
+              </a>
+            </div>
+            <div class="ps-3">
+              <h6 class="text-success">{{ $genreLength }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card info-card customers-card">
+        <div class="card-body">
+          <h5 class="card-title">Regions</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <a href="{{ route('regions.page') }}">
+                <i class="bi bi-globe"></i>
+              </a>
+            </div>
+            <div class="ps-3">
+              <h6 class="text-danger">{{ $regionLength }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">Actors</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <a href="{{ route('actors.page') }}">
+                <i class="bi bi-person-lines-fill"></i>
+              </a>
+            </div>
+            <div class="ps-3">
+              <h6 class="text-info">{{ $actorLength }}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Right side columns -->
+  </div>
+</section>
 @endsection
 
 @section('jquery')

@@ -93,7 +93,10 @@ Route::middleware(['auth.custom', 'login.permission'])->group(function () {
         Route::middleware(['users.delete.permission'])->delete('/delete/{email}', [UsersController::class, 'deleteUsersDelete'])->name('delete');
     });
 
-    Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('', [ProfileController::class, 'getProfile'])->name('page');
+        Route::patch('/update', [ProfileController::class, 'patchProfileUpdate'])->name('update');
+    });
 });
 
 Route::middleware(['auth.custom'])->get('/logout', [LoginController::class, 'getLogout'])->name('logout');
